@@ -14,6 +14,8 @@ class Welcome:
 
         self.kb = kb
 
+        self.logo_uri = None
+
     def _date(self) -> float:
         return datetime.now().timestamp()
 
@@ -40,15 +42,22 @@ class Welcome:
     
     async def _answer(self, msg: Message) -> None:
         if self.s.config.media.logo:
+            animation = create_media(
+                static=self.s.config.media.logo,
+                filename="logo"
+            ) if self.logo_uri is None else self.logo_uri
+
             msgg = await msg.answer_animation(
                 caption=self.s.lang.text["welcome"],
-                animation="CgACAgIAAxkDAAIC1mddyto5OtldW3STPQ78L2Deq3_iAAIkaQACgRbwSjiSSfM8XNK-NgQ",
+                animation=animation,
                 duration=3,
                 width=800,
                 height=800,
                 reply_markup=self.kb.welcome.main_menu()
             )
-            print(msgg.animation.file_id)
+            
+            self.logo_uri = msgg.animation.file_id
+            
             return
         
         await msg.answer(
