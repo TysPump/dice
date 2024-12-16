@@ -1,6 +1,6 @@
 {
     "media": {
-        "logo": "./src/satic/main.GIF"
+        "logo": "./src/static/main.GIF"
     },
     "admins": [995854049],
     "infoUrl": "https://google.com",
