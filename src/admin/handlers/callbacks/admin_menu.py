@@ -1,4 +1,5 @@
 from aiogram.types import CallbackQuery
+from aiogram.fsm.context import FSMContext
 
 from ....factory.session import Session
 from ...keyboard import AdminKeyboards
@@ -8,7 +9,9 @@ class AdminPanel:
         self.s = s
         self.kb = kb
 
-    async def admin_panel(self, call: CallbackQuery) -> None:
+    async def admin_panel(self, call: CallbackQuery, state: FSMContext) -> None:
+        await state.clear()
+        
         await call.message.edit_text(
             text=self.s.lang.text["admin_panel"],
             reply_markup=self.kb.panel.panel_menu()

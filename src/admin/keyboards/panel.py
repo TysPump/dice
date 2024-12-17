@@ -17,5 +17,17 @@ class PanelKeyboard:
                 callback="edit_gifts"
             )
         )
+        builder.row(
+            btn(
+                text=self.s.lang.button["contacts"],
+                callback="edit_contacts"
+            )
+        )
+        builder.row(
+            btn(
+                text=self.s.lang.button["conditions"],
+                callback="edit_conditions"
+            )
+        )
 
         return builder.as_markup()

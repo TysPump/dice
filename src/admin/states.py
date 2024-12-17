@@ -10,3 +10,6 @@ class EditGift(StatesGroup):
     desc = State()
     image = State()
     dice = State()
+
+class StateEdit(StatesGroup):
+    value = State()

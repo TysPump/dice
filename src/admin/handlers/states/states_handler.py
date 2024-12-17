@@ -110,3 +110,21 @@ class AdminStatesHandler:
             text=self.s.lang.text["done"],
             reply_markup=self.kb.nav.back(callback="edit_gifts")
         )
+
+    async def edit_data_value(self, msg: Message, state: FSMContext) -> None:
+        if not msg.text:
+            return
+        
+        state_info = await state.get_data()
+
+        await state.clear()
+        
+        await self.s.db.edit.data(
+            type_=state_info.get("type_", ""),
+            value=msg.text
+        )
+
+        await msg.answer(
+            text=self.s.lang.text["done"],
+            reply_markup=self.kb.nav.back(callback="admin_panel")
+        )

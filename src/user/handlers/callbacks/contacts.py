@@ -10,8 +10,12 @@ class ContactsMenu:
 
     async def contacts(self, call: CallbackQuery) -> None:
         await call.message.delete()
+
+        contacts = await self.s.db.fetch.data(
+            type_="contacts"
+        )
         
         await call.message.answer(
-            text=self.s.lang.text["contacts"],
+            text=contacts.value if contacts else "Контакты",
             reply_markup=self.kb.nav.back(callback="main_menu")
         )

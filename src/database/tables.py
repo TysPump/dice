@@ -29,3 +29,10 @@ class Inventory(Base):
     ownerId: Mapped[int] = mapped_column(index=True)
     giftId: Mapped[int]
     date: Mapped[float]
+
+class Data(Base):
+    __tablename__ = "Data"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    type_: Mapped[str]
+    value: Mapped[str]

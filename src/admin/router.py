@@ -6,7 +6,7 @@ from .keyboard import AdminKeyboards
 from .handlers.messages import Panel
 from .handlers.states import AdminStatesHandler
 from .callback import AdminCallbacks
-from .states import NewGift, EditGift
+from .states import NewGift, EditGift, StateEdit
 
 class AdminRouter:
     def __init__(
@@ -35,6 +35,9 @@ class AdminRouter:
         self.r.callback_query.register(self.callback.gifts.edit_image, F.data.startswith("gift_image_edit:"))
         self.r.callback_query.register(self.callback.gifts.edit_dice, F.data.startswith("gift_dice_edit:"))
 
+        self.r.callback_query.register(self.callback.edit.contacts, F.data=="edit_contacts")
+        self.r.callback_query.register(self.callback.edit.conditions, F.data=="edit_conditions")
+
         self.r.callback_query.register(self.callback.panel.close, F.data=="close")
         self.r.callback_query.register(self.callback.panel.admin_panel, F.data=="admin_panel")
 
@@ -46,3 +49,5 @@ class AdminRouter:
         self.r.message.register(self.states.edit_gift_desc, EditGift.desc)
         self.r.message.register(self.states.edit_gift_image, EditGift.image)
         # self.r.message.register(self.states.edit_gift_dice, EditGift.dice)
+
+        self.r.message.register(self.states.edit_data_value, StateEdit.value)

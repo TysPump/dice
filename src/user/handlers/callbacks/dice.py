@@ -96,6 +96,8 @@ class DiceMenu:
     async def send_dice(self, call: CallbackQuery) -> None:
         inventory = await self.s.db.fetch.inventory(chatId=call.from_user.id)
 
+        conditions = await self.s.db.fetch.data(type_="conditions")
+
         if inventory:
             text, reply_markup = await self._inventory(inventory=inventory)
             if call.message.photo:
@@ -130,7 +132,7 @@ class DiceMenu:
         if len(gifts) == 1:
             desc = "\n\n {}".format(gifts[0].desc)
             await call.message.answer_photo(
-                caption=self.s.lang.text["gift"].format(gifts[0].name, desc),
+                caption=self.s.lang.text["gift"].format(gifts[0].name, desc, conditions.value if conditions else "Условия"),
                 photo=gifts[0].image,
                 reply_markup=self.kb.nav.menu()
             )
@@ -145,11 +147,11 @@ class DiceMenu:
             )
         elif len(gifts) == 0:
             await call.message.answer(
-                text=self.s.lang.text["gift"].format("Ничего :(", "")
+                text=self.s.lang.text["gift"].format("Ничего :(", "", "")
             )
         else:
             desc = "\n\n".join([gift.desc for gift in gifts])
-            caption = self.s.lang.text["gift"].format(", ".join([gift.name for gift in gifts]), desc)
+            caption = self.s.lang.text["gift"].format(", ".join([gift.name for gift in gifts]), desc, conditions.value if conditions else "Условия")
             await call.message.answer_media_group(
                 media=self._create_media_group(gifts=gifts, caption=caption).build()
             )
