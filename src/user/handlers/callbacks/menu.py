@@ -9,7 +9,11 @@ class UserMainMenu:
         self.s = s
         self.kb = kb
 
+        self.logo_uri = None
+
     async def main_menu(self, call: CallbackQuery) -> None:
+        await call.message.delete()
+        
         if self.s.config.media.logo:
             animation = create_media(
                 static=self.s.config.media.logo,
