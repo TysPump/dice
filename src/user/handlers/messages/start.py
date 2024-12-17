@@ -47,16 +47,31 @@ class Welcome:
                 filename="logo"
             ) if self.logo_uri is None else self.logo_uri
 
-            msgg = await msg.answer_animation(
-                caption=self.s.lang.text["welcome"],
-                animation=animation,
-                duration=3,
-                width=800,
-                height=800,
-                reply_markup=self.kb.welcome.main_menu()
-            )
+            try:
+                msgg = await msg.answer_animation(
+                    caption=self.s.lang.text["welcome"],
+                    animation=animation,
+                    duration=3,
+                    width=800,
+                    height=800,
+                    reply_markup=self.kb.welcome.main_menu()
+                )
             
-            self.logo_uri = msgg.animation.file_id
+                self.logo_uri = msgg.animation.file_id
+            except:
+                msgg = await msg.answer_animation(
+                    caption=self.s.lang.text["welcome"],
+                    animation=create_media(
+                        static=self.s.config.media.logo,
+                        filename="logo"
+                    ),
+                    duration=3,
+                    width=800,
+                    height=800,
+                    reply_markup=self.kb.welcome.main_menu()
+                )
+
+                self.logo_uri = msgg.animation.file_id
             
             return
         
